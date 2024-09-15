@@ -1,9 +1,21 @@
+import { useState } from "react";
+import Menu from "./components/Menu";
+import NewProject from "./components/NewProject";
+
 function App() {
-  return (
-    <>
-      <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1>
-    </>
-  );
+	const [projects, setProjects] = useState([]);
+
+	function handleAddProject() {}
+
+	return (
+		<>
+			<Menu
+				projects={projects}
+				handleAddProject={handleAddProject}
+			/>
+			<NewProject />
+		</>
+	);
 }
 
 export default App;
