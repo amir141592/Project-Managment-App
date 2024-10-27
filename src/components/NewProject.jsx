@@ -5,14 +5,6 @@ export default function NewProject({ selectedProject, handleCancelAddProject, ha
 	const description = useRef();
 	const dueDate = useRef();
 
-	console.info(selectedProject);
-
-	if (selectedProject) {
-		name.current.value = selectedProject.name;
-		description.current.value = selectedProject.description;
-		dueDate.current.value = selectedProject.dueDate;
-	}
-
 	return (
 		<>
 			<h2 className="capitalize text-stone-900 text-3xl font-signika font-medium">new project</h2>
@@ -28,6 +20,7 @@ export default function NewProject({ selectedProject, handleCancelAddProject, ha
 						type="text"
 						id="name"
 						className="w-64 p-1 font-signika rounded border"
+						defaultValue={selectedProject?.name ?? ""}
 						ref={name}
 					/>
 				</div>
@@ -41,6 +34,7 @@ export default function NewProject({ selectedProject, handleCancelAddProject, ha
 					<textarea
 						id="description"
 						className="w-64 h-16 p-1 font-signika rounded border resize-none"
+						defaultValue={selectedProject?.description ?? ""}
 						ref={description}
 					></textarea>
 				</div>
@@ -55,6 +49,7 @@ export default function NewProject({ selectedProject, handleCancelAddProject, ha
 						type="date"
 						id="due-date"
 						className="w-64 p-1 font-signika rounded border"
+						defaultValue={selectedProject?.dueDate ?? ""}
 						ref={dueDate}
 					/>
 				</div>

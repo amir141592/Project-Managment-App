@@ -16,10 +16,12 @@ function App() {
 
 	function handleAddProject() {
 		setAppState("ADD_PROJECT");
+		setSelectedProject(undefined);
 	}
 
 	function handleCancelAddProject() {
 		setAppState("NO_PROJECT");
+		setSelectedProject(undefined);
 	}
 
 	function handleSaveProject({ id, name, description, dueDate }) {
@@ -70,8 +72,6 @@ function App() {
 	function handleEditProject() {
 		setAppState("ADD_PROJECT");
 	}
-
-	if (projects.length && !selectedProject) setSelectedProject(projects[0]);
 
 	switch (appState) {
 		case "ADD_PROJECT":
