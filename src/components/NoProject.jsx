@@ -13,7 +13,7 @@ export default function NoProject({ handleAddProject }) {
 				/>
 			</div>
 			<h2 className="text-stone-900 text-3xl font-signika font-medium">No Project!</h2>
-			<p className="text-stone-900 text-lg font-fira-sans">Add a new project</p>
+			<p className="text-stone-900 text-lg font-fira-sans">Add a new project or select an existing project</p>
 			<AddProjectButton onClick={handleAddProject} />
 		</div>
 	);

@@ -1,9 +1,17 @@
 import { useRef } from "react";
 
-export default function NewProject({ handleCancelAddProject, handleSaveProject }) {
+export default function NewProject({ selectedProject, handleCancelAddProject, handleSaveProject }) {
 	const name = useRef();
 	const description = useRef();
 	const dueDate = useRef();
+
+	console.info(selectedProject);
+
+	if (selectedProject) {
+		name.current.value = selectedProject.name;
+		description.current.value = selectedProject.description;
+		dueDate.current.value = selectedProject.dueDate;
+	}
 
 	return (
 		<>
@@ -61,7 +69,14 @@ export default function NewProject({ handleCancelAddProject, handleSaveProject }
 				<button
 					className="px-4 py-1 capitalize font-fira-sans font-medium text-lg rounded-md text-stone-50 bg-rose-700 shadow-md hover:bg-rose-800 hover:shadow-lg"
 					onClick={() =>
-						handleSaveProject({ name: name.current.value, description: description.current.value, dueDate: dueDate.current.value })
+						selectedProject
+							? handleSaveProject({
+									id: selectedProject.id,
+									name: name.current.value,
+									description: description.current.value,
+									dueDate: dueDate.current.value,
+							  })
+							: handleSaveProject({ name: name.current.value, description: description.current.value, dueDate: dueDate.current.value })
 					}
 				>
 					save

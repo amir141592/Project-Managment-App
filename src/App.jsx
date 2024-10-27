@@ -3,6 +3,7 @@ import Menu from "./components/Menu";
 import NewProject from "./components/NewProject";
 import NoProject from "./components/NoProject";
 import Modal from "./components/Modal";
+import SelectedProject from "./components/SelectedProject";
 
 function App() {
 	const [projects, setProjects] = useState([]);
@@ -12,7 +13,6 @@ function App() {
 	const errorModal = useRef();
 
 	let mainContent;
-	let showErrorModal = false;
 
 	function handleAddProject() {
 		setAppState("ADD_PROJECT");
@@ -22,25 +22,53 @@ function App() {
 		setAppState("NO_PROJECT");
 	}
 
-	function handleSaveProject({ name, description, dueDate }) {
+	function handleSaveProject({ id, name, description, dueDate }) {
 		if (name.trim() === "" || description.trim() === "" || dueDate.trim() === "") {
 			errorModal.current.open();
 			return;
 		}
 
-		setProjects((curProjects) => [
-			...curProjects,
-			{
-				id: Math.round(Math.random() * 100000),
-				name,
-				description,
-				dueDate,
-			},
-		]);
+		if (!id)
+			setProjects((curProjects) => [
+				...curProjects,
+				{
+					id: Math.round(Math.random() * 100000),
+					name,
+					description,
+					dueDate,
+				},
+			]);
+		else
+			setProjects((curProjects) => {
+				const newProjects = [...curProjects];
+				const newProject = {
+					id,
+					name,
+					description,
+					dueDate,
+				};
+				newProjects.splice(
+					newProjects.findIndex((project) => project.id === id),
+					1,
+					newProject
+				);
+				return newProjects;
+			});
 	}
 
 	function handleSelectProject(id) {
 		setSelectedProject(projects.find(({ id: _id }) => _id === id));
+		setAppState("SHOW_PROJECT");
+	}
+
+	function handleDeleteProject(id) {
+		setProjects((curProjects) => [...curProjects.filter((project) => project.id !== id)]);
+		setSelectedProject(undefined);
+		setAppState("NO_PROJECT");
+	}
+
+	function handleEditProject() {
+		setAppState("ADD_PROJECT");
 	}
 
 	if (projects.length && !selectedProject) setSelectedProject(projects[0]);
@@ -49,6 +77,7 @@ function App() {
 		case "ADD_PROJECT":
 			mainContent = (
 				<NewProject
+					selectedProject={selectedProject}
 					handleCancelAddProject={handleCancelAddProject}
 					handleSaveProject={handleSaveProject}
 				/>
@@ -60,6 +89,13 @@ function App() {
 			break;
 
 		case "SHOW_PROJECT":
+			mainContent = (
+				<SelectedProject
+					project={selectedProject}
+					handleEditProject={handleEditProject}
+					handleDeleteProject={handleDeleteProject}
+				/>
+			);
 			break;
 
 		default:
