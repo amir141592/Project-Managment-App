@@ -1,4 +1,11 @@
-export default function SelectedProject({ project: { id, name, description, dueDate }, handleEditProject, handleDeleteProject }) {
+import Tasks from "./Tasks";
+
+export default function SelectedProject({
+	project: { id, name, description, dueDate, tasks },
+	handleEditProject,
+	handleDeleteProject,
+	handleAddingTask,
+}) {
 	return (
 		<section className="w-1/2 flex flex-col">
 			<header className="flex justify-between items-center mb-2">
@@ -27,7 +34,10 @@ export default function SelectedProject({ project: { id, name, description, dueD
 				<p>{description}</p>
 			</main>
 			<footer>
-				<h2 className="text-2xl font-medium text-stone-900">Tasks</h2>
+				<Tasks
+					tasks={tasks}
+					handleAddingTask={handleAddingTask}
+				/>
 			</footer>
 		</section>
 	);

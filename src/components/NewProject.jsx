@@ -70,8 +70,14 @@ export default function NewProject({ selectedProject, handleCancelAddProject, ha
 									name: name.current.value,
 									description: description.current.value,
 									dueDate: dueDate.current.value,
+									tasks: selectedProject.tasks,
 							  })
-							: handleSaveProject({ name: name.current.value, description: description.current.value, dueDate: dueDate.current.value })
+							: handleSaveProject({
+									name: name.current.value,
+									description: description.current.value,
+									dueDate: dueDate.current.value,
+									tasks: [],
+							  })
 					}
 				>
 					save

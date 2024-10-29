@@ -24,7 +24,7 @@ function App() {
 		setSelectedProject(undefined);
 	}
 
-	function handleSaveProject({ id, name, description, dueDate }) {
+	function handleSaveProject({ id, name, description, dueDate, tasks }) {
 		if (name.trim() === "" || description.trim() === "" || dueDate.trim() === "") {
 			errorModal.current.open();
 			return;
@@ -38,6 +38,7 @@ function App() {
 					name,
 					description,
 					dueDate,
+					tasks: [],
 				},
 			]);
 		else
@@ -48,6 +49,7 @@ function App() {
 					name,
 					description,
 					dueDate,
+					tasks,
 				};
 				newProjects.splice(
 					newProjects.findIndex((project) => project.id === id),
@@ -73,6 +75,22 @@ function App() {
 		setAppState("ADD_PROJECT");
 	}
 
+	function handleAddingTask(taskName) {
+		const newSelectedProject = { ...selectedProject };
+		newSelectedProject.tasks.push(taskName);
+
+		setProjects((curProjects) => {
+			const newProjects = [...curProjects];
+			newProjects.splice(
+				newProjects.findIndex((project) => project.id === selectedProject.id),
+				1,
+				newSelectedProject
+			);
+			return newProjects;
+		});
+		setSelectedProject(newSelectedProject);
+	}
+
 	switch (appState) {
 		case "ADD_PROJECT":
 			mainContent = (
@@ -94,6 +112,7 @@ function App() {
 					project={selectedProject}
 					handleEditProject={handleEditProject}
 					handleDeleteProject={handleDeleteProject}
+					handleAddingTask={handleAddingTask}
 				/>
 			);
 			break;
