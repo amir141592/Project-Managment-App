@@ -77,7 +77,7 @@ function App() {
 
 	function handleAddingTask(taskName) {
 		const newSelectedProject = { ...selectedProject };
-		newSelectedProject.tasks.push(taskName);
+		newSelectedProject.tasks.push({ id: Math.round(Math.random() * 1000000), name: taskName, done: false });
 
 		setProjects((curProjects) => {
 			const newProjects = [...curProjects];
@@ -88,6 +88,45 @@ function App() {
 			);
 			return newProjects;
 		});
+
+		setSelectedProject(newSelectedProject);
+	}
+
+	function handleDeleteTask(projectId, taskId) {
+		const newSelectedProject = { ...selectedProject };
+		newSelectedProject.tasks.splice(
+			newSelectedProject.tasks.findIndex((task) => task.id === taskId),
+			1
+		);
+
+		setProjects((curProjects) => {
+			const newProjects = [...curProjects];
+			newProjects.splice(
+				newProjects.findIndex((project) => project.id === projectId),
+				1,
+				newSelectedProject
+			);
+			return newProjects;
+		});
+
+		setSelectedProject(newSelectedProject);
+	}
+
+	function handleToggleCheckbox(projectId, taskId) {
+		const newSelectedProject = { ...selectedProject };
+		const changedTask = newSelectedProject.tasks.find((task) => task.id === taskId);
+		changedTask.done = !changedTask.done;
+
+		setProjects((curProjects) => {
+			const newProjects = [...curProjects];
+			newProjects.splice(
+				newProjects.findIndex((project) => project.id === projectId),
+				1,
+				newSelectedProject
+			);
+			return newProjects;
+		});
+
 		setSelectedProject(newSelectedProject);
 	}
 
@@ -113,6 +152,8 @@ function App() {
 					handleEditProject={handleEditProject}
 					handleDeleteProject={handleDeleteProject}
 					handleAddingTask={handleAddingTask}
+					handleDeleteTask={handleDeleteTask}
+					handleToggleCheckbox={handleToggleCheckbox}
 				/>
 			);
 			break;

@@ -5,9 +5,11 @@ export default function SelectedProject({
 	handleEditProject,
 	handleDeleteProject,
 	handleAddingTask,
+	handleDeleteTask,
+	handleToggleCheckbox,
 }) {
 	return (
-		<section className="w-1/2 flex flex-col">
+		<section className="w-1/3 flex flex-col">
 			<header className="flex justify-between items-center mb-2">
 				<h1 className="text-4xl font-medium capitalize text-stone-900">{name}</h1>
 				<div className="flex items-center gap-2">
@@ -19,7 +21,7 @@ export default function SelectedProject({
 						✏️
 					</button>
 					<button
-						className="p-1 text-lg font-medium transition border border-transparent hover:border-stone-400 rounded"
+						className="p-1 transition border border-transparent hover:border-stone-400 rounded"
 						title="Delete"
 						onClick={() => handleDeleteProject(id)}
 					>
@@ -35,8 +37,11 @@ export default function SelectedProject({
 			</main>
 			<footer>
 				<Tasks
+					projectId={id}
 					tasks={tasks}
 					handleAddingTask={handleAddingTask}
+					handleDeleteTask={handleDeleteTask}
+					handleToggleCheckbox={handleToggleCheckbox}
 				/>
 			</footer>
 		</section>
